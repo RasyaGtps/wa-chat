@@ -4,7 +4,8 @@
   "description": "WhatsApp pairing code login application using Baileys",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "install": "npm install --legacy-peer-deps"
   },
   "keywords": [
     "whatsapp",
@@ -18,7 +19,7 @@
   "dependencies": {
     "@whiskeysockets/baileys": "^6.5.0",
     "axios": "^1.6.2",
-    "jimp": "^0.22.10",
+    "jimp": "^0.16.1",
     "link-preview-js": "^3.0.5",
     "pino": "^8.16.2"
   }
