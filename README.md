@@ -10,6 +10,12 @@ Aplikasi Node.js untuk menghubungkan WhatsApp menggunakan Pairing Code. Dibuat d
 - 🔄 Reconnect otomatis
 - 🎨 Interface yang menarik dengan emoji
 - 📊 Support berbagai jenis pesan (teks, gambar, video, dokumen, dll)
+- 🤖 Fitur Bot:
+  - `/cekgithub <username>` - Cek info profil GitHub (publik)
+  - `/listrepo <username>` - Lihat 10 repository terbaru user
+  - `/masukgrup <link>` - Join grup via link (owner only)
+  - `/cekgrup` - Lihat daftar grup yang diikuti (owner only)
+  - `/keluargrup <id>` - Keluar dari grup (owner only)
 
 ## 🛠️ Instalasi
 
@@ -31,7 +37,16 @@ cd wa-chat
 npm install
 ```
 
-3. Jalankan aplikasi
+3. Konfigurasi owner
+- Edit file `config.js`
+- Ganti nomor WhatsApp owner
+```javascript
+ownerNumbers: [
+    "62812345xxxx",  // Ganti dengan nomor WhatsApp owner
+]
+```
+
+4. Jalankan aplikasi
 ```bash
 node index.js
 ```
@@ -53,7 +68,12 @@ node index.js
    - Ketuk Tautkan Perangkat
    - Masukkan kode yang muncul di terminal
 
-4. Selesai! Bot akan mulai mencatat pesan masuk
+4. Bot siap digunakan! Tersedia command:
+   - Cek GitHub: `/cekgithub <username>`
+   - List Repo: `/listrepo <username>`
+   - Join Grup: `/masukgrup <link>` (owner)
+   - Cek Grup: `/cekgrup` (owner)
+   - Keluar Grup: `/keluargrup <id>` (owner)
 
 ## 🖥️ Penggunaan di Panel/VPS
 
@@ -80,43 +100,15 @@ TZ=Asia/Jakarta
 node index.js
 ```
 
-## 📝 Cara Upload ke GitHub
-
-1. Inisialisasi Git
-```bash
-git init
-```
-
-2. Tambahkan file
-```bash
-git add .
-```
-
-3. Commit perubahan
-```bash
-git commit -m "first commit"
-```
-
-4. Set branch ke main
-```bash
-git branch -M main
-```
-
-5. Tambahkan remote repository
-```bash
-git remote add origin https://github.com/RasyaGtps/wa-chat.git
-```
-
-6. Push ke GitHub
-```bash
-git push -u origin main
-```
-
-## 📊 Log Pesan
+## 📝 Format Log Pesan
 
 Semua pesan akan disimpan di `chat_logs.txt` dengan format:
 ```
-[Timestamp] 💬 From: sender | Type: messageType | Message: content
+[Timestamp] 💬 PESAN BARU 💬
+┌ Grup/Pribadi: Nama
+├ Dari: Pengirim
+├ Tipe: Jenis Pesan
+└ Pesan: Isi Pesan
 ```
 
 ## ⚠️ Troubleshooting
@@ -130,6 +122,11 @@ Semua pesan akan disimpan di `chat_logs.txt` dengan format:
    - Pastikan format nomor benar (62xxx)
    - Coba restart aplikasi
    - Hapus folder `auth_info_baileys`
+
+3. Jika fitur GitHub error:
+   - Pastikan username GitHub benar
+   - Cek koneksi internet
+   - Pastikan repository bersifat publik
 
 ## 📄 Lisensi
 
