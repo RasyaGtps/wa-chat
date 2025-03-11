@@ -17,7 +17,43 @@ Aplikasi Node.js untuk menghubungkan WhatsApp menggunakan Pairing Code. Dibuat d
   - `/cekgrup` - Lihat daftar grup yang diikuti (owner only)
   - `/keluargrup <id>` - Keluar dari grup (owner only)
 
-## 🛠️ Instalasi
+## 🎯 Fitur Yang Akan Datang
+
+- 📊 Statistik Bot:
+  - `/stats` - Lihat statistik penggunaan bot
+  - `/uptime` - Cek waktu aktif bot
+  - `/ping` - Cek respon time bot
+
+- 🛡️ Keamanan:
+  - `/block <nomor>` - Blokir pengguna (owner)
+  - `/unblock <nomor>` - Buka blokir pengguna (owner)
+  - `/listblock` - Lihat daftar nomor yang diblokir
+
+- 📱 Manajemen Grup:
+  - `/promote <@user>` - Jadikan admin grup
+  - `/demote <@user>` - Hapus admin grup
+  - `/kick <@user>` - Keluarkan member
+  - `/add <nomor>` - Tambah member
+  - `/linkgrup` - Dapatkan link invite grup
+  - `/revoke` - Reset link grup
+  - `/setdesc <text>` - Ubah deskripsi grup
+  - `/setname <text>` - Ubah nama grup
+
+- 🎮 Hiburan:
+  - `/sticker` - Buat sticker dari gambar/video
+  - `/toimg` - Konversi sticker ke gambar
+  - `/ytmp3 <link>` - Download audio YouTube
+  - `/ytmp4 <link>` - Download video YouTube
+  - `/play <judul>` - Cari dan putar musik YouTube
+
+- 🛠️ Utilitas:
+  - `/translate <text>` - Terjemahkan teks
+  - `/shortlink <url>` - Perpendek URL
+  - `/weather <kota>` - Cek cuaca
+  - `/wiki <query>` - Cari di Wikipedia
+  - `/kalkulator <expr>` - Hitung ekspresi matematika
+
+## ��️ Instalasi
 
 ### Prasyarat
 - Node.js v14 atau lebih baru
