@@ -23,4 +23,17 @@ yarn-error.log*
 
 # OS
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# WhatsApp auth files
+.wwebjs_auth/
+auth_info_baileys/
+
+# Build files
+dist/
+build/
+
+# Debug files
+chat_logs.txt
+*.swp
+*.swo 
