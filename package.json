@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "preinstall": "npm install -g npm@8.19.4"
+    "postinstall": "npm install --legacy-peer-deps"
   },
   "engines": {
     "node": "16.20.2",
@@ -25,14 +25,6 @@
     "axios": "1.6.2",
     "jimp": "0.16.13",
     "link-preview-js": "3.0.5",
-    "pino": "7.11.0",
-    "@babel/runtime": "7.24.0",
-    "futoin-hkdf": "1.5.3",
-    "node-cache": "5.1.2",
-    "protobufjs": "6.11.4",
-    "uuid": "9.0.1"
-  },
-  "overrides": {
-    "jimp": "0.16.1"
+    "pino": "7.11.0"
   }
 }
