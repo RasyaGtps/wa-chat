@@ -53,7 +53,7 @@ Aplikasi Node.js untuk menghubungkan WhatsApp menggunakan Pairing Code. Dibuat d
   - `/wiki <query>` - Cari di Wikipedia
   - `/kalkulator <expr>` - Hitung ekspresi matematika
 
-## ��️ Instalasi
+## 🛠️ Instalasi
 
 ### Prasyarat
 - Node.js v14 atau lebih baru

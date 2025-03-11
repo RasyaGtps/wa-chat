@@ -2,7 +2,7 @@ const { default: makeWASocket, useMultiFileAuthState, DisconnectReason } = requi
 const P = require('pino');
 const readline = require('readline');
 const fs = require('fs');
-const { getGithubInfo, getRepoList } = require('./feature');
+const { getGithubInfo, getRepoList, getUptime, resetUptime } = require('./feature');
 const config = require('./config');
 
 const rl = readline.createInterface({
@@ -29,50 +29,53 @@ function isOwner(sender) {
 
 async function startWhatsApp() {
   try {
-  const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
-  
-  const sock = makeWASocket({
-    auth: state,
+    const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
+    
+    const sock = makeWASocket({
+      auth: state,
       printQRInTerminal: false,
       logger: P({ level: 'warn' }),
       connectTimeoutMs: 30000,
       retryRequestDelayMs: 3000
     });
     
-  sock.ev.on('connection.update', async (update) => {
-    const { connection, lastDisconnect } = update;
+    // Reset uptime saat bot mulai
+    resetUptime();
     
-    if (connection === 'close') {
-        const statusCode = lastDisconnect?.error?.output?.statusCode;
-        console.log(`❌ Koneksi terputus. Status: ${statusCode}`);
-        
-        if (statusCode === DisconnectReason.loggedOut) {
-          console.log('🚫 Perangkat telah logout. Silakan restart aplikasi.');
-          shouldReconnect = false;
-          process.exit(1);
-        }
-        
-        if (shouldReconnect && retryCount < MAX_RETRIES) {
-          retryCount++;
-          console.log(`🔄 Mencoba menghubungkan kembali (${retryCount}/${MAX_RETRIES})...`);
-          setTimeout(() => {
-        startWhatsApp();
-          }, 5000);
-        } else if (retryCount >= MAX_RETRIES) {
-          console.log('⚠️ Batas maksimum percobaan tercapai. Silakan restart aplikasi.');
-          process.exit(1);
-        }
-      }
+    sock.ev.on('connection.update', async (update) => {
+      const { connection, lastDisconnect } = update;
       
-    if (connection === 'connecting') {
-      if (!global.phoneAsked) {
-        global.phoneAsked = true;
-        
-          console.log('\n📱 ========= WHATSAPP PAIRING =========');
-          rl.question('📞 Masukkan nomor WhatsApp Anda (contoh: 62812345xxxx): ', async (phoneNumber) => {
-          const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
-            console.log(`\n🔍 Meminta kode pairing untuk ${cleanNumber}...`);
+      if (connection === 'close') {
+          const statusCode = lastDisconnect?.error?.output?.statusCode;
+          console.log(`❌ Koneksi terputus. Status: ${statusCode}`);
           
+          if (statusCode === DisconnectReason.loggedOut) {
+            console.log('🚫 Perangkat telah logout. Silakan restart aplikasi.');
+            shouldReconnect = false;
+            process.exit(1);
+          }
+          
+          if (shouldReconnect && retryCount < MAX_RETRIES) {
+            retryCount++;
+            console.log(`🔄 Mencoba menghubungkan kembali (${retryCount}/${MAX_RETRIES})...`);
+            setTimeout(() => {
+          startWhatsApp();
+            }, 5000);
+          } else if (retryCount >= MAX_RETRIES) {
+            console.log('⚠️ Batas maksimum percobaan tercapai. Silakan restart aplikasi.');
+            process.exit(1);
+          }
+        }
+        
+      if (connection === 'connecting') {
+        if (!global.phoneAsked) {
+          global.phoneAsked = true;
+          
+            console.log('\n�� ========= WHATSAPP PAIRING =========');
+            rl.question('📞 Masukkan nomor WhatsApp Anda (contoh: 62812345xxxx): ', async (phoneNumber) => {
+            const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
+              console.log(`\n🔍 Meminta kode pairing untuk ${cleanNumber}...`);
+            
           try {
             const code = await sock.requestPairingCode(cleanNumber);
             
@@ -93,17 +96,17 @@ async function startWhatsApp() {
             process.exit(1);
           }
         });
+        }
       }
-    }
+      
+      if (connection === 'open') {
+          console.log('\n✅ Berhasil terhubung ke WhatsApp!');
+          console.log('👂 Mendengarkan pesan masuk...\n');
+          retryCount = 0;
+      }
+    });
     
-    if (connection === 'open') {
-        console.log('\n✅ Berhasil terhubung ke WhatsApp!');
-        console.log('👂 Mendengarkan pesan masuk...\n');
-        retryCount = 0;
-    }
-  });
-  
-  sock.ev.on('creds.update', saveCreds);
+    sock.ev.on('creds.update', saveCreds);
 
     sock.ev.on('messages.upsert', async ({ messages }) => {
       for (const message of messages) {
@@ -374,6 +377,26 @@ async function startWhatsApp() {
               console.log('❌ Format command salah!');
               await sock.sendMessage(from, { 
                 text: '❌ Format salah! Gunakan: /keluargrup <id_grup>\n\nContoh: /keluargrup 123456789@g.us' 
+              });
+              console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+            }
+          }
+
+          // Handle /uptime command
+          if (messageContent === '/uptime') {
+            console.log('\n━━━━━━━━━━ UPTIME ━━━━━━━━━━');
+            console.log('📊 Memproses permintaan status bot...');
+            try {
+              const status = getUptime();
+              await sock.sendMessage(from, { 
+                text: status 
+              });
+              console.log('✅ Berhasil mengirim status bot!');
+              console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+            } catch (error) {
+              console.error('❌ Error:', error.message);
+              await sock.sendMessage(from, { 
+                text: '❌ Gagal mendapatkan status bot!' 
               });
               console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
             }

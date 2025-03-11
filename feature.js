@@ -2,6 +2,45 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
+// Tambahkan variabel untuk menyimpan waktu mulai
+let startTime = Date.now();
+
+// Fungsi untuk format durasi
+function formatDuration(ms) {
+    const seconds = Math.floor((ms / 1000) % 60);
+    const minutes = Math.floor((ms / (1000 * 60)) % 60);
+    const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+    const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+
+    const parts = [];
+    if (days > 0) parts.push(`${days} hari`);
+    if (hours > 0) parts.push(`${hours} jam`);
+    if (minutes > 0) parts.push(`${minutes} menit`);
+    if (seconds > 0) parts.push(`${seconds} detik`);
+
+    return parts.join(', ');
+}
+
+// Fungsi untuk mendapatkan uptime
+function getUptime() {
+    const uptime = Date.now() - startTime;
+    const formattedUptime = formatDuration(uptime);
+    
+    const message = `🤖 *Status Bot*\n\n` +
+                   `⏰ Uptime: ${formattedUptime}\n` +
+                   `🚀 Aktif sejak: ${new Date(startTime).toLocaleString('id-ID')}\n` +
+                   `💻 Platform: ${process.platform}\n` +
+                   `🔋 Memory: ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100} MB`;
+    
+    return message;
+}
+
+// Reset waktu mulai (panggil saat bot restart)
+function resetUptime() {
+    startTime = Date.now();
+    console.log('⏰ Uptime direset!');
+}
+
 async function downloadImage(url, username) {
     console.log(`📥 Mengunduh foto profil untuk @${username}...`);
     const response = await axios({
@@ -95,5 +134,7 @@ async function getRepoList(username) {
 
 module.exports = {
     getGithubInfo,
-    getRepoList
+    getRepoList,
+    getUptime,
+    resetUptime
 }; 
