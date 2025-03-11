@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "install": "npm install --legacy-peer-deps"
+    "postinstall": "npm rebuild"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
   },
   "keywords": [
     "whatsapp",
@@ -17,10 +21,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.5.0",
-    "axios": "^1.6.2",
-    "jimp": "^0.16.1",
-    "link-preview-js": "^3.0.5",
-    "pino": "^8.16.2"
+    "@whiskeysockets/baileys": "6.5.0",
+    "axios": "1.6.2",
+    "jimp": "0.16.1",
+    "link-preview-js": "3.0.5",
+    "pino": "8.16.2"
+  },
+  "overrides": {
+    "jimp": "0.16.1"
   }
 }

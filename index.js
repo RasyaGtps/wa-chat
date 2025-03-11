@@ -29,10 +29,10 @@ function isOwner(sender) {
 
 async function startWhatsApp() {
   try {
-    const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
-    
-    const sock = makeWASocket({
-      auth: state,
+  const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
+  
+  const sock = makeWASocket({
+    auth: state,
       printQRInTerminal: false,
       logger: P({ level: 'warn' }),
       connectTimeoutMs: 30000,
@@ -42,10 +42,10 @@ async function startWhatsApp() {
     // Reset uptime saat bot mulai
     resetUptime();
     
-    sock.ev.on('connection.update', async (update) => {
-      const { connection, lastDisconnect } = update;
-      
-      if (connection === 'close') {
+  sock.ev.on('connection.update', async (update) => {
+    const { connection, lastDisconnect } = update;
+    
+    if (connection === 'close') {
           const statusCode = lastDisconnect?.error?.output?.statusCode;
           console.log(`❌ Koneksi terputus. Status: ${statusCode}`);
           
@@ -59,23 +59,23 @@ async function startWhatsApp() {
             retryCount++;
             console.log(`🔄 Mencoba menghubungkan kembali (${retryCount}/${MAX_RETRIES})...`);
             setTimeout(() => {
-          startWhatsApp();
+        startWhatsApp();
             }, 5000);
           } else if (retryCount >= MAX_RETRIES) {
             console.log('⚠️ Batas maksimum percobaan tercapai. Silakan restart aplikasi.');
             process.exit(1);
-          }
-        }
+      }
+    }
+    
+    if (connection === 'connecting') {
+      if (!global.phoneAsked) {
+        global.phoneAsked = true;
         
-      if (connection === 'connecting') {
-        if (!global.phoneAsked) {
-          global.phoneAsked = true;
-          
             console.log('\n�� ========= WHATSAPP PAIRING =========');
             rl.question('📞 Masukkan nomor WhatsApp Anda (contoh: 62812345xxxx): ', async (phoneNumber) => {
-            const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
+          const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
               console.log(`\n🔍 Meminta kode pairing untuk ${cleanNumber}...`);
-            
+          
           try {
             const code = await sock.requestPairingCode(cleanNumber);
             
@@ -96,17 +96,17 @@ async function startWhatsApp() {
             process.exit(1);
           }
         });
-        }
       }
-      
-      if (connection === 'open') {
+    }
+    
+    if (connection === 'open') {
           console.log('\n✅ Berhasil terhubung ke WhatsApp!');
           console.log('👂 Mendengarkan pesan masuk...\n');
           retryCount = 0;
-      }
-    });
-    
-    sock.ev.on('creds.update', saveCreds);
+    }
+  });
+  
+  sock.ev.on('creds.update', saveCreds);
 
     sock.ev.on('messages.upsert', async ({ messages }) => {
       for (const message of messages) {
