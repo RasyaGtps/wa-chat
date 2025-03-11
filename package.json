@@ -4,12 +4,11 @@
   "description": "WhatsApp pairing code login application using Baileys",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "postinstall": "npm install --legacy-peer-deps"
+    "start": "node index.js"
   },
   "engines": {
-    "node": "18.x",
-    "npm": "9.x"
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "keywords": [
     "whatsapp",
@@ -25,7 +24,6 @@
     "axios": "1.6.2",
     "jimp": "0.16.13",
     "link-preview-js": "3.0.5",
-    "pino": "7.11.0",
-    "@thi.ng/bitstream": "2.4.14"
+    "pino": "7.11.0"
   }
 }
