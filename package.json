@@ -8,8 +8,8 @@
     "postinstall": "npm install --legacy-peer-deps"
   },
   "engines": {
-    "node": "16.20.2",
-    "npm": "8.19.4"
+    "node": "18.x",
+    "npm": "9.x"
   },
   "keywords": [
     "whatsapp",
@@ -25,6 +25,7 @@
     "axios": "1.6.2",
     "jimp": "0.16.13",
     "link-preview-js": "3.0.5",
-    "pino": "7.11.0"
+    "pino": "7.11.0",
+    "@thi.ng/bitstream": "2.4.14"
   }
 }
