@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "WhatsApp pairing code login application using Baileys",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "node index.js"
+    "start": "node --experimental-modules --openssl-legacy-provider index.js"
   },
   "engines": {
     "node": ">=18.0.0",
@@ -24,6 +25,8 @@
     "axios": "1.6.2",
     "jimp": "0.16.13",
     "link-preview-js": "3.0.5",
-    "pino": "7.11.0"
+    "pino": "7.11.0",
+    "qrcode-terminal": "^0.12.0",
+    "crypto": "^1.0.1"
   }
 }
