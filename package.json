@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "postinstall": "npm rebuild"
+    "preinstall": "npm install -g npm@8.19.4"
   },
   "engines": {
-    "node": "16.x",
-    "npm": "8.x"
+    "node": "16.20.2",
+    "npm": "8.19.4"
   },
   "keywords": [
     "whatsapp",
@@ -21,11 +21,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@whiskeysockets/baileys": "6.5.0",
+    "@whiskeysockets/baileys": "6.7.16",
     "axios": "1.6.2",
-    "jimp": "0.16.1",
+    "jimp": "0.16.13",
     "link-preview-js": "3.0.5",
-    "pino": "8.16.2"
+    "pino": "7.11.0",
+    "@babel/runtime": "7.24.0",
+    "futoin-hkdf": "1.5.3",
+    "node-cache": "5.1.2",
+    "protobufjs": "6.11.4",
+    "uuid": "9.0.1"
   },
   "overrides": {
     "jimp": "0.16.1"
