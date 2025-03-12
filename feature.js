@@ -132,9 +132,81 @@ async function getRepoList(username) {
     }
 }
 
+async function getFollowers(username) {
+    try {
+        console.log(`\n🔍 Mencari daftar followers untuk user GitHub: @${username}...`);
+        const response = await axios.get(`https://api.github.com/users/${username}/followers?per_page=100`);
+        const followers = response.data;
+        console.log('✅ Daftar followers ditemukan!');
+        
+        if (followers.length === 0) {
+            throw new Error('User tidak memiliki followers.');
+        }
+        
+        // Format pesan dengan emoji
+        let followerList = `👥 *Daftar Followers @${username}*\n` +
+                          `📊 Total Followers: ${followers.length}\n\n`;
+        
+        followers.forEach((follower, index) => {
+            followerList += `${index + 1}. *${follower.login}*\n` +
+                          `   ├ 🔗 Profile: ${follower.html_url}\n` +
+                          `   └ 🖼️ Avatar: ${follower.avatar_url}\n\n`;
+        });
+        
+        // Tambahkan catatan jika ada lebih banyak followers
+        if (followers.length === 100) {
+            followerList += '\n📝 *Catatan: Hanya menampilkan 100 followers teratas.*';
+        }
+            
+        return followerList;
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            throw new Error('User GitHub tidak ditemukan!');
+        }
+        throw new Error('Terjadi kesalahan saat mengambil daftar followers');
+    }
+}
+
+async function getFollowing(username) {
+    try {
+        console.log(`\n🔍 Mencari daftar following untuk user GitHub: @${username}...`);
+        const response = await axios.get(`https://api.github.com/users/${username}/following?per_page=100`);
+        const following = response.data;
+        console.log('✅ Daftar following ditemukan!');
+        
+        if (following.length === 0) {
+            throw new Error('User tidak following siapapun.');
+        }
+        
+        // Format pesan dengan emoji
+        let followingList = `👣 *Daftar Following @${username}*\n` +
+                          `📊 Total Following: ${following.length}\n\n`;
+        
+        following.forEach((follow, index) => {
+            followingList += `${index + 1}. *${follow.login}*\n` +
+                           `   ├ 🔗 Profile: ${follow.html_url}\n` +
+                           `   └ 🖼️ Avatar: ${follow.avatar_url}\n\n`;
+        });
+        
+        // Tambahkan catatan jika ada lebih banyak following
+        if (following.length === 100) {
+            followingList += '\n📝 *Catatan: Hanya menampilkan 100 following teratas.*';
+        }
+            
+        return followingList;
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            throw new Error('User GitHub tidak ditemukan!');
+        }
+        throw new Error('Terjadi kesalahan saat mengambil daftar following');
+    }
+}
+
 module.exports = {
     getGithubInfo,
     getRepoList,
     getUptime,
-    resetUptime
+    resetUptime,
+    getFollowers,
+    getFollowing
 }; 

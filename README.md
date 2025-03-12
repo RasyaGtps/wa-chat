@@ -10,38 +10,43 @@ Aplikasi Node.js untuk menghubungkan WhatsApp menggunakan Pairing Code. Dibuat d
 - 🔄 Reconnect otomatis
 - 🎨 Interface yang menarik dengan emoji
 - 📊 Support berbagai jenis pesan (teks, gambar, video, dokumen, dll)
-- 🤖 Fitur Bot:
-  - `/cekgithub <username>` - Cek info profil GitHub (publik)
-  - `/listrepo <username>` - Lihat 10 repository terbaru user
-  - `/masukgrup <link>` - Join grup via link (owner only)
-  - `/cekgrup` - Lihat daftar grup yang diikuti (owner only)
-  - `/keluargrup <id>` - Keluar dari grup (owner only)
+
+### 🤖 Fitur Bot
+
+1. **Fitur GitHub**
+   - `/cekgithub <username>` - Cek info profil GitHub
+   - `/listrepo <username>` - Lihat 10 repository terbaru
+   - `/cekfollowers <username>` - Lihat daftar followers
+   - `/cekfollowing <username>` - Lihat daftar following
+
+2. **Fitur Grup (Admin/Owner)**
+   - `/promote <@user>` - Jadikan admin grup
+   - `/demote <@user>` - Hapus admin grup
+   - `/kick <@user>` - Keluarkan member
+   - `/add <nomor>` - Tambah member
+   - `/linkgrup` - Dapatkan link invite grup
+   - `/revoke` - Reset link grup
+   - `/masukgrup <link>` - Join grup via link (owner)
+   - `/cekgrup` - Lihat daftar grup yang diikuti (owner)
+   - `/keluargrup <id>` - Keluar dari grup (owner)
+
+3. **Fitur Block (Owner Only)**
+   - `/block <nomor>` - Blokir pengguna
+   - `/unblock <nomor>` - Buka blokir pengguna
+   - `/listblock` - Lihat daftar nomor yang diblokir
+
+4. **Fitur Media**
+   - `/sticker` - Buat sticker dari gambar/video
+   - `/toimg` - Konversi sticker ke gambar
+
+5. **Fitur Bot**
+   - `/uptime` - Cek waktu aktif bot
+   - `/help` - Tampilkan menu bantuan
+   - `/public on/off` - Aktifkan/matikan mode public
 
 ## 🎯 Fitur Yang Akan Datang
 
-- 📊 Statistik Bot:
-  - `/stats` - Lihat statistik penggunaan bot
-  - `/uptime` - Cek waktu aktif bot
-  - `/ping` - Cek respon time bot
-
-- 🛡️ Keamanan:
-  - `/block <nomor>` - Blokir pengguna (owner)
-  - `/unblock <nomor>` - Buka blokir pengguna (owner)
-  - `/listblock` - Lihat daftar nomor yang diblokir
-
-- 📱 Manajemen Grup:
-  - `/promote <@user>` - Jadikan admin grup
-  - `/demote <@user>` - Hapus admin grup
-  - `/kick <@user>` - Keluarkan member
-  - `/add <nomor>` - Tambah member
-  - `/linkgrup` - Dapatkan link invite grup
-  - `/revoke` - Reset link grup
-  - `/setdesc <text>` - Ubah deskripsi grup
-  - `/setname <text>` - Ubah nama grup
-
 - 🎮 Hiburan:
-  - `/sticker` - Buat sticker dari gambar/video
-  - `/toimg` - Konversi sticker ke gambar
   - `/ytmp3 <link>` - Download audio YouTube
   - `/ytmp4 <link>` - Download video YouTube
   - `/play <judul>` - Cari dan putar musik YouTube
@@ -70,7 +75,7 @@ cd wa-chat
 
 2. Install dependencies
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
 3. Konfigurasi owner
@@ -104,21 +109,16 @@ node index.js
    - Ketuk Tautkan Perangkat
    - Masukkan kode yang muncul di terminal
 
-4. Bot siap digunakan! Tersedia command:
-   - Cek GitHub: `/cekgithub <username>`
-   - List Repo: `/listrepo <username>`
-   - Join Grup: `/masukgrup <link>` (owner)
-   - Cek Grup: `/cekgrup` (owner)
-   - Keluar Grup: `/keluargrup <id>` (owner)
+4. Bot siap digunakan! Ketik `/help` untuk melihat daftar perintah
 
 ## 🖥️ Penggunaan di Panel/VPS
 
 ### 1. Upload ke Panel
 ```bash
-cd /home/container  # Masuk ke direktori container
+cd /home/container
 git clone https://github.com/RasyaGtps/wa-chat.git
 cd wa-chat
-npm install
+npm install --legacy-peer-deps
 ```
 
 ### 2. Setup di Panel
@@ -140,37 +140,3 @@ node index.js
 
 Semua pesan akan disimpan di `chat_logs.txt` dengan format:
 ```
-[Timestamp] 💬 PESAN BARU 💬
-┌ Grup/Pribadi: Nama
-├ Dari: Pengirim
-├ Tipe: Jenis Pesan
-└ Pesan: Isi Pesan
-```
-
-## ⚠️ Troubleshooting
-
-1. Jika terjadi error "Connection closed":
-   - Pastikan nomor WhatsApp benar
-   - Cek koneksi internet
-   - Restart aplikasi
-
-2. Jika pairing code tidak muncul:
-   - Pastikan format nomor benar (62xxx)
-   - Coba restart aplikasi
-   - Hapus folder `auth_info_baileys`
-
-3. Jika fitur GitHub error:
-   - Pastikan username GitHub benar
-   - Cek koneksi internet
-   - Pastikan repository bersifat publik
-
-## 📄 Lisensi
-
-MIT License - Silakan gunakan dan modifikasi sesuai kebutuhan!
-
-## 🤝 Kontribusi
-
-Kontribusi selalu welcome! Silakan buat Pull Request atau Issue.
-
----
-Made with ❤️ by Rasya 
